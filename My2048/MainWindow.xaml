@@ -1,0 +1,39 @@
+﻿<Window x:Class="My2048.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="2048" Height="500" Width="370">
+    <Grid Background="#FFFAF8EF">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="360"/>
+        </Grid.RowDefinitions>
+        <Label Content="Best" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="41"/>
+        <Label Name="Label_BestScore"
+               Content="BestScore" HorizontalAlignment="Left" Margin="56,10,0,0" VerticalAlignment="Top" Width="92"/>
+        <Label Content="Score" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="41"/>
+        <Label Name="Label_CurrentScore" 
+               Content="CurrentScore" HorizontalAlignment="Left" Margin="56,41,0,0" VerticalAlignment="Top" Width="92"/>
+        <Button Name="ButtonNewGame" 
+                Content="New&#xD;&#xA;Game" HorizontalAlignment="Left" Margin="259,10,0,0" VerticalAlignment="Top" Width="75" Height="57" 
+                Click="ButtonNewGame_Click"/>
+        <Rectangle Fill="#FFBBADA0" HorizontalAlignment="Left" Height="335" Margin="8,12,0,0" Grid.Row="1" VerticalAlignment="Top" Width="335" RadiusX="5" RadiusY="5"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="20,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="100,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="180,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="260,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="20,104,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="100,104,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="180,104,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="260,104,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="20,184,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="100,184,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="180,184,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="260,184,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="20,264,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="100,264,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="180,264,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+        <Rectangle Fill="#59EEE4DA" HorizontalAlignment="Left" Height="70" Margin="260,264,0,0" Grid.Row="1" VerticalAlignment="Top" Width="70" RadiusX="6" RadiusY="6"/>
+
+        <Canvas Grid.Row="1" Name="TileConvas" Margin="20,24,32,26" />
+    </Grid>
+</Window>
