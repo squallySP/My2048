@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:My2048"
              mc:Ignorable="d" 
              Height="70" Width="70">
-    <Grid>
+    <Grid Name="grid">
         <Grid.Resources>
             
         </Grid.Resources>

@@ -49,6 +49,8 @@ namespace My2048
 
 
             InitializeComponent();
+
+            grid.DataContext = this;
         }
 
         // for INotifyPropertyChanged
