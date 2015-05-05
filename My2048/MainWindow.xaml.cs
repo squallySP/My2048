@@ -27,10 +27,23 @@ namespace My2048
 
         private void ButtonNewGame_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Hello");
-            var myTile = new TileControl();
-            myTile.Margin = new Thickness(50, 50, 0, 0);
+            //MessageBox.Show("Hello");
+            var myTile = new TileControl(new Cell(0,0));
+            var myTile2 = new TileControl(new Cell(1, 1));
             TileConvas.Children.Add(myTile);
+            TileConvas.Children.Add(myTile2);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Up)
+                MessageBox.Show("UP");
+            if (e.Key == Key.Down)
+                MessageBox.Show("DOWN");
+            if (e.Key == Key.Left)
+                MessageBox.Show("LEFT");
+            if (e.Key == Key.Right)
+                MessageBox.Show("RIGHT");
         }
     }
 }

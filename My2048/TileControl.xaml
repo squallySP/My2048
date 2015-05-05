@@ -3,11 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:My2048"
              mc:Ignorable="d" 
              Height="70" Width="70">
     <Grid>
+        <Grid.Resources>
+            
+        </Grid.Resources>
         <Rectangle Height="70" Width="70" RadiusX="6" RadiusY="6" Fill="#FFD4D4D4"/>
-        <Label Name="Value" 
-               VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF5D5D5D" >Value</Label>   
+        <Label Name="CellValue" Content="{Binding Path=Value}"
+               VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF5D5D5D" ></Label>   
     </Grid>
 </UserControl>
