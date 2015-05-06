@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,9 @@ namespace My2048
     /// </summary>
     public partial class MainWindow : Window
     {
+        public TileControl myTile = new TileControl(0,0);
+        public TileControl myTile2 = new TileControl(2,2);
+        private GameBoard myGameBoard;
         public MainWindow()
         {
             InitializeComponent();
@@ -27,11 +31,15 @@ namespace My2048
 
         private void ButtonNewGame_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("Hello");
-            var myTile = new TileControl(new Cell(0,0));
-            var myTile2 = new TileControl(new Cell(1, 1));
-            TileConvas.Children.Add(myTile);
-            TileConvas.Children.Add(myTile2);
+            myGameBoard = new GameBoard();
+
+            myGameBoard.AddTileToCells();
+            Thread.Sleep(20); 
+            myGameBoard.AddTileToCells();
+
+            Refresh();
+
+
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -43,7 +51,22 @@ namespace My2048
             if (e.Key == Key.Left)
                 MessageBox.Show("LEFT");
             if (e.Key == Key.Right)
-                MessageBox.Show("RIGHT");
+            {
+                //MessageBox.Show(myTile.ToString());
+                //myTile.CurrentPosition
+                myTile.Move();
+            }
+        }
+
+        private void Refresh()
+        {
+            TileConvas.Children.Clear();
+
+            foreach (TileControl tile in myGameBoard.gameCells)
+            {
+                if (tile != null)
+                    TileConvas.Children.Add(tile);
+            }
         }
     }
 }

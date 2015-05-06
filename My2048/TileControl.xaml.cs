@@ -36,9 +36,21 @@ namespace My2048
         public Cell TargetCell { get; set; }
         public Position CurrentPosition { get; private set; }
         private Position DeltaPosition { get; set; }
+        public bool toRecycle = false;
+        public bool toUpgrade = false;
+        public bool toShowup = false;
+        public bool hasMoved = false;
 
-        public TileControl(Cell cell)
+        public TileControl()
         {
+            Value = 2;
+            InitializeComponent();
+            grid.DataContext = this;
+        }
+
+        public TileControl(int i, int j)
+        {
+            Cell cell = new Cell(i, j);
             Value = 2;
             CurrentCell = cell;
             TargetCell = null;
@@ -61,6 +73,63 @@ namespace My2048
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+
+        public void Move()
+        {
+            //this.Margin = new Thickness(CurrentPosition.X + 80, CurrentPosition.Y, 0, 0);
+        }
+
+        public void ShowUp() 
+        {
+
+        }
+
+        public void Recycle() 
+        {
+            
+            toRecycle = false;
+            toUpgrade = false;
+            toShowup = false;
+            hasMoved = false;
+
+            Value = 2;
+            CurrentCell = null;
+            TargetCell = null;
+            CurrentPosition = null;
+            DeltaPosition = null;
+        }
+
+        public void Upgrade()
+        {
+            toUpgrade = false;
+            Value = Value * 2;
+        }
+
+        public void MoveOver()
+        {
+            toRecycle = false;
+            toUpgrade = false;
+            toShowup = false;
+            hasMoved = false;
+
+            CurrentCell = TargetCell;
+            TargetCell = null;
+            CurrentPosition = new Position(CurrentCell.X * 80, CurrentCell.Y * 80);
+            DeltaPosition = new Position(0, 0);
+            this.Margin = new Thickness(CurrentPosition.X, CurrentPosition.Y, 0, 0);
+        }
+
+        public void SetToCell(int i, int j)
+        {
+            Cell cell = new Cell(i, j);
+            Value = 2;
+            CurrentCell = cell;
+            TargetCell = null;
+            CurrentPosition = new Position(CurrentCell.X * 80, CurrentCell.Y * 80);
+            DeltaPosition = new Position(0, 0);
+            this.Margin = new Thickness(CurrentPosition.X, CurrentPosition.Y, 0, 0);
         }
     }
 

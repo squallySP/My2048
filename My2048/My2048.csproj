@@ -55,6 +55,7 @@
     </ApplicationDefinition>
     <Compile Include="Cell.cs" />
     <Compile Include="CellPosition.cs" />
+    <Compile Include="GameBoard.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="TileControl.xaml.cs">
       <DependentUpon>TileControl.xaml</DependentUpon>
