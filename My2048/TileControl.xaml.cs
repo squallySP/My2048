@@ -78,7 +78,9 @@ namespace My2048
 
         public void Move()
         {
-            //this.Margin = new Thickness(CurrentPosition.X + 80, CurrentPosition.Y, 0, 0);
+            CurrentPosition.X = TargetCell.X * 80;
+            CurrentPosition.Y = TargetCell.Y * 80;
+            this.Margin = new Thickness(CurrentPosition.X, CurrentPosition.Y, 0, 0);
         }
 
         public void ShowUp() 
@@ -107,7 +109,7 @@ namespace My2048
             Value = Value * 2;
         }
 
-        public void MoveOver()
+        public void MovementOver()
         {
             toRecycle = false;
             toUpgrade = false;

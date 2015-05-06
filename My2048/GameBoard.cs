@@ -87,17 +87,31 @@ namespace My2048
         }
 
         // 去掉tile中的各种标记，为下一轮移动做准备
-        public void MoveOver()
+        public void MovementOver()
         {
             foreach (TileControl tile in gameCells)
             {
                 if (tile != null)
-                    tile.MoveOver();
+                    tile.MovementOver();
             }
         }
 
+        // 移动tiles
+        public void Move() 
+        {
+            foreach (TileControl tile in gameCells)
+                if (tile != null)
+                {
+                    tile.Move();
+                    tile.CurrentCell = tile.TargetCell.Clone();
+                }
+                    
+        }
+
+        public void MoveOneStep() { }
+
         // 检查游戏结束
-        public bool CheckGemeOver()
+        public bool IsGameOver()
         {
             if (Tiles.Count > 0)
                 return false;
@@ -112,15 +126,167 @@ namespace My2048
                         return false;
                 }
             // 如果没有相邻等值的，则游戏结束
-            return false;
+            return true;
         }
 
         public bool TryToMoveUp()
         {
-            bool MoveSuccess = false;
+            bool canMove = false;
 
+            for (int x = 0; x < 4; x++)
+            {
+                // move one line
+                int yIndex = 0;
+                TileControl lastTile = null;
+                for (int y = 0; y < 4; y++)
+                {
+                    if (gameCells[x, y] != null)
+                    {
+                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value)
+                        {
+                            gameCells[x, y].TargetCell = lastTile.TargetCell.Clone();
+                            gameCells[x, y].hasMoved = true;
+                            gameCells[x, y].toRecycle = true;
+                            lastTile.toUpgrade = true;
+                            lastTile = gameCells[x, y];
+                        }
+                        else
+                        {
+                            gameCells[x, y].TargetCell = gameCells[x, y].CurrentCell.Clone();
+                            gameCells[x, y].TargetCell.Y = yIndex;
+                            yIndex += 1;
+                            gameCells[x, y].hasMoved = true;
+                            lastTile = gameCells[x, y];
+                        }
+                    }
+                }
+            }
 
-            return false;
+            foreach (TileControl tile in gameCells)
+                if (tile!=null && !tile.TargetCell.IsSameAs(tile.CurrentCell))
+                    canMove = true;
+
+            return canMove;
+        }
+
+        public bool TryToMoveDown()
+        {
+            bool canMove = false;
+
+            for (int x = 0; x < 4; x++)
+            {
+                // move one line
+                int yIndex = 3;
+                TileControl lastTile = null;
+                for (int y = 3; y >= 0; y--)
+                {
+                    if (gameCells[x, y] != null)
+                    {
+                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value)
+                        {
+                            gameCells[x, y].TargetCell = lastTile.TargetCell.Clone();
+                            gameCells[x, y].hasMoved = true;
+                            gameCells[x, y].toRecycle = true;
+                            lastTile.toUpgrade = true;
+                            lastTile = gameCells[x, y];
+                        }
+                        else
+                        {
+                            gameCells[x, y].TargetCell = gameCells[x, y].CurrentCell.Clone();
+                            gameCells[x, y].TargetCell.Y = yIndex;
+                            yIndex -= 1;
+                            gameCells[x, y].hasMoved = true;
+                            lastTile = gameCells[x, y];
+                        }
+                    }
+                }
+            }
+
+            foreach (TileControl tile in gameCells)
+                if (tile != null && !tile.TargetCell.IsSameAs(tile.CurrentCell))
+                    canMove = true;
+
+            return canMove;
+        }
+
+        public bool TryToMoveRight()
+        {
+            bool canMove = false;
+
+            for (int y = 0; y < 4; y++)
+            {
+                // move one line
+                int xIndex = 3;
+                TileControl lastTile = null;
+                for (int x = 3; x >= 0; x--)
+                {
+                    if (gameCells[x, y] != null)
+                    {
+                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value)
+                        {
+                            gameCells[x, y].TargetCell = lastTile.TargetCell.Clone();
+                            gameCells[x, y].hasMoved = true;
+                            gameCells[x, y].toRecycle = true;
+                            lastTile.toUpgrade = true;
+                            lastTile = gameCells[x, y];
+                        }
+                        else
+                        {
+                            gameCells[x, y].TargetCell = gameCells[x, y].CurrentCell.Clone();
+                            gameCells[x, y].TargetCell.X = xIndex;
+                            xIndex -= 1;
+                            gameCells[x, y].hasMoved = true;
+                            lastTile = gameCells[x, y];
+                        }
+                    }
+                }
+            }
+
+            foreach (TileControl tile in gameCells)
+                if (tile != null && !tile.TargetCell.IsSameAs(tile.CurrentCell))
+                    canMove = true;
+
+            return canMove;
+        }
+
+        public bool TryToMoveLeft()
+        {
+            bool canMove = false;
+
+            for (int y = 0; y < 4; y++)
+            {
+                // move one line
+                int xIndex = 0;
+                TileControl lastTile = null;
+                for (int x = 0; x < 4; x++)
+                {
+                    if (gameCells[x, y] != null)
+                    {
+                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value)
+                        {
+                            gameCells[x, y].TargetCell = lastTile.TargetCell.Clone();
+                            gameCells[x, y].hasMoved = true;
+                            gameCells[x, y].toRecycle = true;
+                            lastTile.toUpgrade = true;
+                            lastTile = gameCells[x, y];
+                        }
+                        else
+                        {
+                            gameCells[x, y].TargetCell = gameCells[x, y].CurrentCell.Clone();
+                            gameCells[x, y].TargetCell.X = xIndex;
+                            xIndex += 1;
+                            gameCells[x, y].hasMoved = true;
+                            lastTile = gameCells[x, y];
+                        }
+                    }
+                }
+            }
+
+            foreach (TileControl tile in gameCells)
+                if (tile != null && !tile.TargetCell.IsSameAs(tile.CurrentCell))
+                    canMove = true;
+
+            return canMove;
         }
     }
 }

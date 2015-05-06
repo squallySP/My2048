@@ -44,18 +44,35 @@ namespace My2048
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            if (myGameBoard.IsBusy)
+                return;
+
+            bool canMove = false;
+            myGameBoard.IsBusy = true;
+
             if (e.Key == Key.Up)
-                MessageBox.Show("UP");
+                canMove = myGameBoard.TryToMoveUp();
             if (e.Key == Key.Down)
-                MessageBox.Show("DOWN");
+                canMove = myGameBoard.TryToMoveDown();
             if (e.Key == Key.Left)
-                MessageBox.Show("LEFT");
+                canMove = myGameBoard.TryToMoveLeft();
             if (e.Key == Key.Right)
+                canMove = myGameBoard.TryToMoveRight();
+
+            if (canMove)
             {
-                //MessageBox.Show(myTile.ToString());
-                //myTile.CurrentPosition
-                myTile.Move();
+                myGameBoard.Move();
+                myGameBoard.RecycleTiles();
+                myGameBoard.Upgrade();
+                myGameBoard.AddTileToCells();
+                if(myGameBoard.IsGameOver())
+                {
+                    MessageBox.Show("GameOver!");
+                }
+                Refresh();
             }
+
+            myGameBoard.IsBusy = false;
         }
 
         private void Refresh()

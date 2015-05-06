@@ -16,5 +16,15 @@ namespace My2048
             X = x;
             Y = y;
         }
+
+        public Cell Clone()
+        {
+            return new Cell(X, Y);
+        }
+
+        public bool IsSameAs(Cell cell)
+        {
+            return X == cell.X && Y == cell.Y;
+        }
     }
 }
