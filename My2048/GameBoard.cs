@@ -1,13 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace My2048
 {
-    class GameBoard
+    class GameBoard : INotifyPropertyChanged
     {
+        public static int steps = 5;
+        private int _bestScore;
+        public int BestScore 
+        {
+            get { return _bestScore; }
+            set
+            {
+                _bestScore = value;
+                Notify("BestScore");
+            }
+        }
+        private int _currentScore;
+        public int CurrentScore
+        {
+            get { return _currentScore; }
+            set
+            {
+                _currentScore = value;
+                Notify("CurrentScore");
+            }
+        }
+
         public bool IsBusy { get; set; }
 
         public TileControl[,] gameCells = new TileControl[4,4];
@@ -28,7 +51,41 @@ namespace My2048
             {
                 Tiles.Add(new TileControl());
             }
+
+            BestScore = 0;
+            CurrentScore = 0;
         }
+
+        public void ReNew()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (gameCells[i, j] != null)
+                    {
+                        Tiles.Add(gameCells[i, j]);
+                        gameCells[i, j] = null;
+                    }
+                }
+            }
+
+
+            //BestScore = 0;
+            CurrentScore = 0;
+        }
+
+
+        // for INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void Notify(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
 
         // 向Cell的随机空格添加tile
         public void AddTileToCells()
@@ -82,7 +139,13 @@ namespace My2048
             foreach (TileControl tile in gameCells)
             {
                 if (tile != null && tile.toUpgrade == true)
+                {
                     tile.Upgrade();
+                    CurrentScore += tile.Value;
+                    if (BestScore < CurrentScore)
+                        BestScore = CurrentScore;
+                }
+                    
             }
         }
 
@@ -108,7 +171,14 @@ namespace My2048
                     
         }
 
-        public void MoveOneStep() { }
+        public void MoveOneStep()
+        {
+            foreach (TileControl tile in gameCells)
+                if (tile != null)
+                {
+                    tile.MoveOneStep();
+                }
+        }
 
         // 检查游戏结束
         public bool IsGameOver()
@@ -142,7 +212,7 @@ namespace My2048
                 {
                     if (gameCells[x, y] != null)
                     {
-                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value)
+                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value && lastTile.toRecycle == false)
                         {
                             gameCells[x, y].TargetCell = lastTile.TargetCell.Clone();
                             gameCells[x, y].hasMoved = true;
@@ -166,6 +236,9 @@ namespace My2048
                 if (tile!=null && !tile.TargetCell.IsSameAs(tile.CurrentCell))
                     canMove = true;
 
+            if (canMove)
+                CalculateStep();
+
             return canMove;
         }
 
@@ -182,7 +255,7 @@ namespace My2048
                 {
                     if (gameCells[x, y] != null)
                     {
-                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value)
+                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value && lastTile.toRecycle == false)
                         {
                             gameCells[x, y].TargetCell = lastTile.TargetCell.Clone();
                             gameCells[x, y].hasMoved = true;
@@ -206,6 +279,9 @@ namespace My2048
                 if (tile != null && !tile.TargetCell.IsSameAs(tile.CurrentCell))
                     canMove = true;
 
+            if (canMove)
+                CalculateStep();
+
             return canMove;
         }
 
@@ -222,7 +298,7 @@ namespace My2048
                 {
                     if (gameCells[x, y] != null)
                     {
-                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value)
+                        if (lastTile != null && lastTile.Value == gameCells[x, y].Value && lastTile.toRecycle == false)
                         {
                             gameCells[x, y].TargetCell = lastTile.TargetCell.Clone();
                             gameCells[x, y].hasMoved = true;
@@ -245,6 +321,9 @@ namespace My2048
             foreach (TileControl tile in gameCells)
                 if (tile != null && !tile.TargetCell.IsSameAs(tile.CurrentCell))
                     canMove = true;
+
+            if (canMove)
+                CalculateStep();
 
             return canMove;
         }
@@ -286,7 +365,26 @@ namespace My2048
                 if (tile != null && !tile.TargetCell.IsSameAs(tile.CurrentCell))
                     canMove = true;
 
+            if (canMove)
+                CalculateStep();
+
             return canMove;
+        }
+
+        private void CalculateStep()
+        {
+            foreach (TileControl tile in gameCells)
+                if (tile != null)
+                    if (tile.TargetCell.IsSameAs(tile.CurrentCell))
+                    {
+                        tile.DeltaPosition.X = 0;
+                        tile.DeltaPosition.Y = 0;
+                    }
+                    else
+                    {
+                        tile.DeltaPosition.X = (tile.TargetCell.X - tile.CurrentCell.X) * 80 / 5;
+                        tile.DeltaPosition.Y = (tile.TargetCell.Y - tile.CurrentCell.Y) * 80 / 5;
+                    }
         }
     }
 }

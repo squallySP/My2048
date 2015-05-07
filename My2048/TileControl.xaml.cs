@@ -21,7 +21,7 @@ namespace My2048
     /// </summary>
     public partial class TileControl : UserControl, INotifyPropertyChanged
     {
-        public static int moveTurns = 10;
+        public static int steps = 5;
         private int _value;
         public int Value
         {
@@ -35,7 +35,7 @@ namespace My2048
         public Cell CurrentCell { get; set; }
         public Cell TargetCell { get; set; }
         public Position CurrentPosition { get; private set; }
-        private Position DeltaPosition { get; set; }
+        public Position DeltaPosition { get; set; }
         public bool toRecycle = false;
         public bool toUpgrade = false;
         public bool toShowup = false;
@@ -80,6 +80,13 @@ namespace My2048
         {
             CurrentPosition.X = TargetCell.X * 80;
             CurrentPosition.Y = TargetCell.Y * 80;
+            this.Margin = new Thickness(CurrentPosition.X, CurrentPosition.Y, 0, 0);
+        }
+
+        public void MoveOneStep()
+        {
+            CurrentPosition.X = CurrentPosition.X + DeltaPosition.X;
+            CurrentPosition.Y = CurrentPosition.Y + DeltaPosition.Y;
             this.Margin = new Thickness(CurrentPosition.X, CurrentPosition.Y, 0, 0);
         }
 

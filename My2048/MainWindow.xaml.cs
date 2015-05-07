@@ -19,27 +19,25 @@ namespace My2048
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
     public partial class MainWindow : Window
     {
-        public TileControl myTile = new TileControl(0,0);
-        public TileControl myTile2 = new TileControl(2,2);
-        private GameBoard myGameBoard;
+        public static int steps = 5;
+
+        private int bestScore = 0;
+        private GameBoard myGameBoard = new GameBoard();
         public MainWindow()
         {
             InitializeComponent();
+            NewGame();
+            grid.DataContext = this.myGameBoard;            
         }
 
         private void ButtonNewGame_Click(object sender, RoutedEventArgs e)
         {
-            myGameBoard = new GameBoard();
-
-            myGameBoard.AddTileToCells();
-            Thread.Sleep(20); 
-            myGameBoard.AddTileToCells();
-
-            Refresh();
-
-
+            bestScore = myGameBoard.BestScore;
+            NewGame();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -61,6 +59,12 @@ namespace My2048
 
             if (canMove)
             {
+                for (int i = 0; i < steps; i++)
+                {
+                    myGameBoard.MoveOneStep();
+                    Refresh();
+                    Thread.Sleep(50);
+                }
                 myGameBoard.Move();
                 myGameBoard.RecycleTiles();
                 myGameBoard.Upgrade();
@@ -85,5 +89,28 @@ namespace My2048
                     TileConvas.Children.Add(tile);
             }
         }
+
+        private void NewGame()
+        {
+            myGameBoard.ReNew();
+
+            myGameBoard.AddTileToCells();
+            Thread.Sleep(20);
+            myGameBoard.AddTileToCells();
+
+            Refresh();
+        }
+
+        private void MoveTiles()
+        {
+            for (int i = 0; i < steps; i++)
+            {
+                Thread.Sleep(50);
+                myGameBoard.MoveOneStep();
+                Refresh();
+            }
+            myGameBoard.Move();
+        }
+                
     }
 }
